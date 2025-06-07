@@ -1,10 +1,14 @@
 package com.tobywoollums.inventory.controller;
+
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.tobywoollums.inventory.service.InventoryItemService;
+import jakarta.validation.Valid;
 import com.tobywoollums.inventory.dto.InventoryItemDto;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
 @RequestMapping("/api/items")
@@ -30,9 +34,9 @@ public class InventoryItemController {
     @PostMapping
     public ResponseEntity<InventoryItemDto> createItem(@Valid @RequestBody InventoryItemDto dto){
         InventoryItemDto newItem = service.createItem(dto);
-        URI location = ServletUriComponentBuilder.fromCurrentRequest()
-            .path("id").buildAndExpand(created.getId()).toUri();
-        return ResponseEntity.created(location).body(created);
+        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
+            .path("id").buildAndExpand(newItem.getId()).toUri();
+        return ResponseEntity.created(location).body(newItem);
     }
 
     @PutMapping("/{id}")

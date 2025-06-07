@@ -1,10 +1,10 @@
 package com.tobywoollums.inventory.service;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 import com.tobywoollums.inventory.dto.InventoryItemDto;
 import com.tobywoollums.inventory.entity.InventoryItem;
+import com.tobywoollums.inventory.exception.ResourceNotFoundException;
 import com.tobywoollums.inventory.repository.InventoryItemRepository;
 
 @Service
@@ -31,14 +31,14 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     @Override
     public InventoryItemDto getItemById(Long id) {
         InventoryItem item = repository.findById(id)
-            .orElseThrow(() => new ResourceNotFoundException("Item not found with id " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Item not found with id " + id));
         return mapToDto(item);
     }
 
     @Override
     public InventoryItemDto updateItem(Long id, InventoryItemDto dto) {
         InventoryItem item = repository.findById(id)
-            .orElseThrow(() => new ResourceNotFoundException("Item not found with id " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Item not found with id " + id));
         
         item.setName(dto.getName());
         item.setDescription(dto.getDescription());
@@ -68,13 +68,13 @@ public class InventoryItemServiceImpl implements InventoryItemService {
     }
 
     private InventoryItem mapToEntity(InventoryItemDto dto){
-        return new InventoryItem(
-            dto.getId(),
-            dto.getName(),
-            dto.getDescription(),
-            dto.getImageUrl(),
-            dto.getStockQuantity(),
-            dto.getMinStockQuantity()
-        );
+        InventoryItem newItem = new InventoryItem();
+        //newItem.setId(dto.getId());
+        newItem.setName(dto.getName());
+        newItem.setDescription(dto.getDescription());
+        newItem.setImageUrl(dto.getImageUrl());
+        newItem.setStockQuantity(dto.getStockQuantity());
+        newItem.setMinStockQuantity(dto.getMinStockQuantity());
+        return newItem;
     }
 }
