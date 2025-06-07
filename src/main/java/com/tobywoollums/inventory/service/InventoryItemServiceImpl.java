@@ -1,11 +1,8 @@
 package com.tobywoollums.inventory.service;
 import java.util.List;
-
 import org.springframework.stereotype.Service;
-
 import com.tobywoollums.inventory.dto.InventoryItemDto;
 import com.tobywoollums.inventory.repository.InventoryItemRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service

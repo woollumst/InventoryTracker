@@ -1,11 +1,13 @@
 package com.tobywoollums.inventory.controller;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
-import com.tobywoollums.inventory.service.InventoryItemService;
-
+import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 import lombok.RequiredArgsConstructor;
+import com.tobywoollums.inventory.service.InventoryItemService;
+import com.tobywoollums.inventory.dto.InventoryItemDto;
 
 @RestController
 @RequestMapping("/api/items")
