@@ -1,5 +1,7 @@
 package com.tobywoollums.inventory.service;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.springframework.stereotype.Service;
 import com.tobywoollums.inventory.dto.InventoryItemDto;
 import com.tobywoollums.inventory.entity.InventoryItem;
@@ -22,26 +24,36 @@ public class InventoryItemServiceImpl implements InventoryItemService {
 
     @Override
     public List<InventoryItemDto> getAllItems() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getAllItems'");
+        return repository.findAll().stream()
+            .map(this::mapToDto).collect(Collectors.toList());
     }
 
     @Override
     public InventoryItemDto getItemById(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getItemById'");
+        InventoryItem item = repository.findById(id)
+            .orElseThrow(() => new ResourceNotFoundException("Item not found with id " + id));
+        return mapToDto(item);
     }
 
     @Override
     public InventoryItemDto updateItem(Long id, InventoryItemDto dto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateItem'");
+        InventoryItem item = repository.findById(id)
+            .orElseThrow(() => new ResourceNotFoundException("Item not found with id " + id));
+        
+        item.setName(dto.getName());
+        item.setDescription(dto.getDescription());
+        item.setImageUrl(dto.getImageUrl());
+        item.setStockQuantity(dto.getStockQuantity());
+        item.setMinStockQuantity(dto.getMinStockQuantity());
+        
+        return mapToDto(repository.save(item));
     }
 
     @Override
     public void deleteItem(Long id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteItem'");
+        if (!repository.existsById(id))
+            throw new ResourceNotFoundException("Item not found with id " + id);
+        repository.deleteById(id);
     }
 
     private InventoryItemDto mapToDto(InventoryItem item){
