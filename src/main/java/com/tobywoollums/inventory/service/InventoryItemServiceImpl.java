@@ -2,6 +2,7 @@ package com.tobywoollums.inventory.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.tobywoollums.inventory.dto.InventoryItemDto;
+import com.tobywoollums.inventory.entity.InventoryItem;
 import com.tobywoollums.inventory.repository.InventoryItemRepository;
 
 @Service
@@ -49,17 +50,19 @@ public class InventoryItemServiceImpl implements InventoryItemService {
             item.getName(),
             item.getDescription(),
             item.getImageUrl(),
-            item.getQuantity(),
-            item.getMinQuantity()
+            item.getStockQuantity(),
+            item.getMinStockQuantity()
         );
     }
 
     private InventoryItem mapToEntity(InventoryItemDto dto){
+        return new InventoryItem(
             dto.getId(),
             dto.getName(),
             dto.getDescription(),
             dto.getImageUrl(),
-            dto.getQuantity(),
-            dto.getMinQuantity()
+            dto.getStockQuantity(),
+            dto.getMinStockQuantity()
+        );
     }
 }
