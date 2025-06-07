@@ -25,7 +25,7 @@ public class InventoryItemController {
     public ResponseEntity<InventoryItemDto> getItemById(@PathVariable Long id){
         return service.getItemById(id)
             .map(ResponseEntity::ok)
-            .else(ResponseEntity.notFound().build());
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -40,11 +40,17 @@ public class InventoryItemController {
 
     @PutMapping("/{id}")
     public ResponseEntity<InventoryItemDto> updateItem(@PathVariable Long id, @RequestBody InventoryItemDto dto){
-        
+        return service.updateItem(id, dto)
+            .map(ResponseEntity::ok)
+            .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
 public ResponseEntity<Void> deleteItem(@PathVariable Long id){
-        
+        if (service.deleteItem(id)){
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
